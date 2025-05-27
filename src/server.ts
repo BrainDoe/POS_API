@@ -3,14 +3,19 @@ import cors from "cors";
 import express, { Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 
-const app = express();
 import connectDB from "./utils/db-connection.util";
 import AppError from "./utils/AppError.util";
 import errorHandler from "./middleware/errorHandler.middleware";
 
+import categoryRouter from "./routes/category.route";
+
+const app = express();
+
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
+
+app.use("/api/v1/categories", categoryRouter);
 
 const port = process.env.PORT || 3000;
 
@@ -25,6 +30,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   errorHandler(err, req, res, next);
 });
 
+// connectDB();
 app.listen(port, () => {
   connectDB()
     .then(() => {

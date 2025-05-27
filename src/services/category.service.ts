@@ -3,14 +3,16 @@ import { ParamsResponse } from "../utils/pagination.util";
 import { CategoryTypeBody } from "../validation/category.validation";
 import CategoryModel from "../models/category.model";
 
-export async function createCategory(data: CategoryTypeBody) {
+export async function createCategory({ name, description }: CategoryTypeBody) {
   try {
     const category = await CategoryModel.create({
-      name: data.name,
-      description: data.description,
+      name,
+      description,
     });
 
-    return category;
+    // @ts-ignore
+    const { __v, ...rest } = category._doc;
+    return rest;
   } catch (error: any) {
     throw error;
   }
