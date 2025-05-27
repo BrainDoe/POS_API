@@ -12,9 +12,7 @@ export const createCategorySchema = object({
       .optional(),
   }),
   params: object({
-    id: string({ required_error: "Id is required" }).uuid(
-      "Id must be valid UUID type"
-    ),
+    id: string({ required_error: "Id is required" }),
   }),
 });
 
@@ -29,9 +27,7 @@ export const updateCategorySchema = object({
       .optional(),
   }),
   params: object({
-    id: string({ required_error: "Id is required" }).uuid(
-      "Id must be valid UUID type"
-    ),
+    id: string({ required_error: "Id is required" }),
   }),
 });
 
