@@ -14,3 +14,8 @@ export interface IProduct extends Document {
   isFeatured?: boolean;
   images?: string[];
 }
+
+export interface ICategory extends Document {
+  name: string;
+  description?: string;
+}
