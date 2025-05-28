@@ -5,7 +5,7 @@ import {
   getCategoryById,
   updateCategory,
 } from "../services/category.service";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   PaginatedResponse,
   ResponseType,
@@ -27,7 +27,8 @@ import { ICategory as Category } from "../interfaces/product.interface";
 
 export const getCategoriesHandler = async (
   req: Request<{}, {}, {}, PaginationParams>,
-  res: Response<ResponseType<PaginatedResponse<Category[]>>>
+  res: Response<ResponseType<PaginatedResponse<Category[]>>>,
+  next: NextFunction
 ) => {
   try {
     const { page, limit, sortBy, order } = req.query;
@@ -42,17 +43,14 @@ export const getCategoriesHandler = async (
 
     successResponse(res, categories);
   } catch (error: any) {
-    res.status(500).json({
-      responseCode: "11",
-      responseDescription: "Failed",
-      message: error.message,
-    });
+    next(error);
   }
 };
 
 export const getCategoryByIdHandler = async (
   req: Request<CategoryTypeParams, {}, {}>,
-  res: Response<ResponseType<Category>>
+  res: Response<ResponseType<Category>>,
+  next: NextFunction
 ) => {
   const {
     params: { id },
@@ -62,37 +60,31 @@ export const getCategoryByIdHandler = async (
 
     successResponse(res, category);
   } catch (error: any) {
-    res.status(500).json({
-      responseCode: "11",
-      responseDescription: "Failed",
-      message: error.message,
-    });
+    next(error);
   }
 };
 
 export const createCategoryHandler = async (
   req: Request<{}, {}, CategoryTypeBody>,
-  res: Response<ResponseType<Category>>
+  res: Response<ResponseType<Category>>,
+  next: NextFunction
 ) => {
   try {
     const { body } = createCategorySchema
       .omit({ params: true })
       .parse({ body: req.body });
-    const category = await createCategory(req.body);
+    const category = await createCategory(body);
 
     successResponse(res, category);
   } catch (error: any) {
-    res.status(500).json({
-      responseCode: "11",
-      responseDescription: "Failed",
-      message: error.message,
-    });
+    next(error);
   }
 };
 
 export const updateCategoryHandler = async (
   req: Request<CategoryTypeParams, {}, UpdateCategoryType>,
-  res: Response<ResponseType<Category>>
+  res: Response<ResponseType<Category>>,
+  next: NextFunction
 ) => {
   try {
     const {
@@ -103,32 +95,23 @@ export const updateCategoryHandler = async (
 
     successResponse(res, category);
   } catch (error: any) {
-    res.status(500).json({
-      responseCode: "11",
-      responseDescription: "Failed",
-      message: error.message,
-    });
+    next(error);
   }
 };
 
 export const deleteCategoryHandler = async (
-  req: Request<CategoryTypeParams, {}, {}>,
-  res: Response<ResponseType<Category>>
+  req: Request<CategoryTypeParams["id"], {}, {}>,
+  res: Response<ResponseType<Category>>,
+  next: NextFunction
 ) => {
   try {
-    const {
-      params: { id },
-    } = createCategorySchema
+    const { params } = createCategorySchema
       .pick({ params: true })
-      .parse({ params: req.params.id });
-    const category = await deleteCategory(id);
+      .parse({ params: req.params });
+    const category = await deleteCategory(params.id);
 
     successResponse(res, category);
   } catch (error: any) {
-    res.status(500).json({
-      responseCode: "11",
-      responseDescription: "Failed",
-      message: error.message,
-    });
+    next(error);
   }
 };
