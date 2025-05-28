@@ -13,7 +13,7 @@ categoryRouter.get("/", getCategoriesHandler);
 categoryRouter.post("/create", createCategoryHandler);
 
 categoryRouter.put("/update/:id", updateCategoryHandler);
-categoryRouter.get("/:id", getCategoryByIdHandler);
 categoryRouter.delete("/delete/:id", deleteCategoryHandler);
+categoryRouter.get("/:id", getCategoryByIdHandler);
 
 export default categoryRouter;
