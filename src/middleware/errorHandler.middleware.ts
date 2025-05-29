@@ -20,7 +20,7 @@ const errorHandler = (
       message: e.message,
     }));
     return res.status(statusCode).json({
-      status: "fail",
+      status: "failed: Validation Error",
       errors: formattedErrors,
     });
   }
@@ -44,6 +44,7 @@ const errorHandler = (
   }
 
   res.status(statusCode).json({
+    error: err,
     status: "error",
     message,
   });

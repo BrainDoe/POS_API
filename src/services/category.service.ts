@@ -54,7 +54,9 @@ export async function getCategoryById(id: string) {
       throw new AppError("Invalid category ID", 400);
     }
 
-    const category = await CategoryModel.findByIdAndDelete(id).select("-__v");
+    const category = await CategoryModel.findById(id)
+      .select("-__v")
+      .populate("category", "_id name description");
 
     if (!category) {
       throw new AppError("Category not found", 404);
@@ -75,6 +77,10 @@ export async function updateCategory(id: string, data: CategoryTypeBody) {
     const category = await CategoryModel.findByIdAndUpdate(id, data, {
       new: true,
     }).select("-__v");
+
+    if (!category) {
+      throw new AppError("Category not found", 404);
+    }
 
     return category;
   } catch (error: any) {
