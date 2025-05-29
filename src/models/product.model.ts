@@ -6,6 +6,7 @@ const ProductSchema = new Schema<IProduct>(
     name: { type: String, required: true },
     description: String,
     price: { type: Number, required: true },
+    costPrice: { type: Number, required: true },
     discountedPrice: { type: Number, default: 0 },
     minQuantity: { type: Number, default: 5 },
     isActive: { type: Boolean, default: true },

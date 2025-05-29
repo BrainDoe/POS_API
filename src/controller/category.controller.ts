@@ -99,23 +99,6 @@ export const updateCategoryHandler = async (
   }
 };
 
-// export const deleteCategoryHandler = async (
-//   req: Request<CategoryTypeParams["id"], {}, {}>,
-//   res: Response<ResponseType<Category>>,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const { params } = createCategorySchema
-//       .pick({ params: true })
-//       .parse({ params: req.params });
-//     const category = await deleteCategory(params.id);
-
-//     successResponse(res, category);
-//   } catch (error: any) {
-//     next(error);
-//   }
-// };
-
 export const deleteCategoryHandler = async (
   req: Request<CategoryTypeParams, {}, {}>,
   res: Response<ResponseType<Category>>,

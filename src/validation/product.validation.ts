@@ -12,6 +12,9 @@ export const createProductSchema = object({
     price: number({ required_error: "Price is required" }).positive(
       "Price must be a positive a number"
     ),
+    costPrice: number({ required_error: "Cost Price is required" }).positive(
+      "Cost Price must be a positive a number"
+    ),
     discountedPrice: number({ required_error: "Discounted price is required" })
       .positive("discounted price must be a positive a number")
       .optional(),
@@ -46,6 +49,9 @@ export const updateProductSchema = object({
       .optional(),
     price: number({ required_error: "Price is required" })
       .positive("Price must be a positive a number")
+      .optional(),
+    costPrice: number({ required_error: "Cost Price is required" })
+      .positive("Cost Price must be a positive a number")
       .optional(),
     discountedPrice: number({ required_error: "Discounted price is required" })
       .positive("discounted price must be a positive a number")
