@@ -4,6 +4,7 @@ export interface IProduct extends Document {
   name: string;
   description: string;
   price: number;
+  costPrice: number;
   stock: number;
   barcode: string;
   category: Types.ObjectId;

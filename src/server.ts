@@ -9,6 +9,7 @@ import errorHandler from "./middleware/errorHandler.middleware";
 
 import categoryRouter from "./routes/category.route";
 import productRouter from "./routes/product.route";
+import saleRouter from "./routes/sale.route";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(helmet());
 
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/sales", saleRouter);
 
 const port = process.env.PORT || 3000;
 
