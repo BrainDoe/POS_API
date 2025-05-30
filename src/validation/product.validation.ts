@@ -16,7 +16,7 @@ export const createProductSchema = object({
       "Cost Price must be a positive a number"
     ),
     discountedPrice: number({ required_error: "Discounted price is required" })
-      .positive("discounted price must be a positive a number")
+      .nonnegative("discounted price must be a positive a number")
       .optional(),
     discountPercentage: number({
       required_error: "Discounted Percentage is required",
