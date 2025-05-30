@@ -73,11 +73,22 @@ export const createProductHandler = async (
   next: NextFunction
 ) => {
   try {
-    console.log({ b: req.body });
-    const { body } = createProductSchema
-      .omit({ params: true })
-      .parse({ body: req.body });
-    console.log({ body });
+    const imageUrls = (req.files as Express.Multer.File[]).map(
+      (file) => file.path
+    );
+
+    const { body } = createProductSchema.omit({ params: true }).parse({
+      body: {
+        ...req.body,
+        images: imageUrls,
+        // To be remove when frontend is integrated
+        price: Number(req.body.price),
+        costPrice: Number(req.body.costPrice),
+        stock: Number(req.body.stock),
+        minQuantity: Number(req.body.minQuantity),
+        discountedPrice: Number(req.body.discountedPrice),
+      },
+    });
 
     const product = await createProduct(body);
 
