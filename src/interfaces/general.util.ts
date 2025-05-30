@@ -1,5 +1,4 @@
 export interface DupErrorType extends Error {
-  statusCode?: any;
   errorResponse: {
     index: number;
     code: number;

@@ -4,7 +4,7 @@ import { ZodError } from "zod";
 import { DupErrorType } from "../interfaces/general.util";
 
 const errorHandler = (
-  err: Error | DupErrorType,
+  err: Error,
   _req: Request,
   res: Response,
   _next: NextFunction
