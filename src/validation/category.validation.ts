@@ -7,7 +7,7 @@ export const createCategorySchema = object({
       "Category name must be a minimum of 3 characters length"
     ),
     description: z
-      .string()
+      .string({ required_error: "Description is required" })
       .min(3, "Category description must be a minimum of 3 characters length")
       .optional(),
   }),
