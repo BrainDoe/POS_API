@@ -20,6 +20,9 @@ app.use(helmet());
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/sales", saleRouter);
+app.use("/", (_, res: Response) => {
+  res.sendStatus(200);
+});
 
 const port = process.env.PORT || 3000;
 
