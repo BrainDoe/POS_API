@@ -73,6 +73,7 @@ export const createCategoryHandler = async (
     const { body } = createCategorySchema
       .omit({ params: true })
       .parse({ body: req.body });
+
     const category = await createCategory(body);
 
     successResponse(res, category);
