@@ -12,7 +12,7 @@ export async function createCategory({ name, description }: CategoryTypeBody) {
     });
 
     // @ts-ignore
-    const { __v, ...rest } = category._doc;
+    const { __v, ...rest } = category.toObject();
     return rest;
   } catch (error: any) {
     throw error;

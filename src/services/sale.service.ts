@@ -1,4 +1,5 @@
 import SaleModel from "../models/sale.model";
+import ProductModel from "../models/product.model";
 import AppError from "../utils/AppError.util";
 import mongoose from "mongoose";
 import { CreateSaleInput } from "../validation/sale.validation";
@@ -7,7 +8,10 @@ import { ParamsResponse } from "../utils/pagination.util";
 // Create a new sale (invoice)
 export async function createSale(saleData: CreateSaleInput) {
   try {
-    const sale = await SaleModel.create(saleData);
+    // Optional: Validate sales data against db
+    const validatedData = await validateSalesData(saleData);
+
+    const sale = await SaleModel.create(validatedData);
 
     // @ts-ignore
     const { __v, ...rest } = sale._doc;
@@ -81,3 +85,42 @@ export async function deleteSale(id: string) {
     throw error;
   }
 }
+
+const validateSalesData = async (saleData: CreateSaleInput) => {
+  const validatedItems = [];
+
+  for (const item of saleData.items) {
+    const product = await ProductModel.findById(item.product);
+
+    if (!product) {
+      throw new AppError(`Product with ID ${item.product} not found.`, 404);
+    }
+
+    const unitPrice = product.price;
+    const name = product.name;
+    const totalPrice = unitPrice * item.quantity;
+
+    validatedItems.push({
+      product: product._id,
+      name,
+      quantity: item.quantity,
+      unitPrice,
+      totalPrice,
+    });
+  }
+
+  const totalAmount = validatedItems.reduce(
+    (sum, item) => sum + item.totalPrice,
+    0
+  );
+
+  const saleToSave = {
+    items: validatedItems,
+    totalAmount,
+    paymentMethod: saleData.paymentMethod,
+    paidAmount: saleData.paidAmount,
+    changeGiven: saleData.paidAmount - totalAmount,
+  };
+
+  return saleToSave;
+};
